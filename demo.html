@@ -1,0 +1,112 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+		<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+<body bgcolor="#dfeaf4">
+	<form action="#">
+		<div>
+			<input name="someName" type="text" />
+		</div>
+		<div>
+			<input name="someField2" type="text" />
+		</div>
+		<div>
+			<input name="someField3" type="text" />
+		</div>
+		<div>
+			<input name="someField4" type="text" />
+		</div>
+		<div>
+			<input name="someField5" type="text" />
+		</div>
+		<div>
+			<input name="someField6" type="text" />
+		</div>
+		<div>
+			<input name="someField7" type="text" />
+		</div>
+		<div>
+			<input name="someField8" type="text" />
+		</div>
+		<div>
+			<input name="radioName" value="1" type="radio" />
+		</div>
+		<div>
+			<input name="radioName" value="2" type="radio" />
+		</div>
+		<div>
+			<input name="radioName" value="3" type="radio" />
+		</div>
+	</form>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="PAGE.js" type="text/javascript"></script>
+<script src="LocalStorage.js" type="text/javascript"></script>
+<script src="prepopulate.js" type="text/javascript"></script>
+<script type="text/javascript">
+	PAGE.add$("Modules.Form", (function() {
+		var dog = {
+			prepopulate : undefined /* Prepopulate("legalZoomForm") */
+			, localStorage : undefined /* come directly from Prepopulate */
+		}
+
+		function init() {
+			PAGE.wait("Constructors.Prepopulate", function(PrePopulate) {
+			PAGE.wait("Constructors.LocalStorage", function(LocalStorage) {
+
+				dog.prepopulate = PrePopulate("legalZoomForm")
+				dog.localStorage = dog.prepopulate.localStorage
+
+				var dataCount = 0
+				$.each(dog.localStorage.data, function(index, value) {
+					dataCount++
+				})
+
+			var $control = $("<span>").css({
+					position : "fixed"
+				, right : 0
+				, bottom  : 0
+				, color : "white"
+				, fontFamily : "arial"
+				, fontSize : 12
+			}).appendTo("body")
+
+			if (dataCount) {
+					$("<span>")
+						.append("use saved fields")
+						.click(function() {
+							dog.prepopulate.populate()
+						}).css({
+							  padding : "15px"
+							, display : "inline-block"
+							, backgroundColor : "blue"
+							, color : "white"
+							, cursor : "pointer"
+					}).appendTo($control)
+			}
+
+			$("<span>")
+				.append("save fields")
+				.click(function() {
+					dog.prepopulate.establishBase()
+				}).css({
+					  padding : "15px"
+					, display : "inline-block"
+					, backgroundColor : "green"
+					, color : "white"
+					, cursor : "pointer"
+			}).appendTo($control)
+
+
+			})
+			})
+		}
+
+		init()
+		return dog
+	}()))
+</script>
+</html>
+
